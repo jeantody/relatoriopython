@@ -1,4 +1,4 @@
-# Sistema ACCB - Gerador de Relatórios
+# Gerador de Relatórios
 
 Aplicação desktop para extração e análise de relatórios médicos do sistema ACCB.
 
