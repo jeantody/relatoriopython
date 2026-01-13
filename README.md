@@ -1,4 +1,4 @@
-# Gerador de Relatórios
+# Gerador de Relatórios WebScrapping
 
 Aplicação desktop para extração e análise de relatórios médicos .
 - Extração automatizada de dados de atendimentos médicos
