@@ -1,21 +1,12 @@
 # Gerador de Relatórios
 
-Aplicação desktop para extração e análise de relatórios médicos do sistema ACCB.
-
+Aplicação desktop para extração e análise de relatórios médicos .
 ## Funcionalidades
-
 - Extração automatizada de dados de atendimentos médicos
 - Cálculo de eficiência por profissional e especialidade
 - Geração de relatórios em formato CSV
 - Interface gráfica intuitiva com log em tempo real
-
-## Requisitos
-
-- Python 3.8 ou superior
-- Dependências listadas em `requirements.txt`
-
 ## Instalação
-
 ```bash
 # Clone o repositório
 git clone https://github.com/seu-usuario/sistema-accb.git
@@ -33,14 +24,6 @@ pip install -r requirements.txt
 # Configure suas credenciais
 cp config.example.py config.py
 # Edite config.py com suas credenciais de acesso
-```
-
-## Uso
-
-Execute o arquivo principal:
-
-```bash
-python main.py
 ```
 
 Preencha os campos solicitados:
@@ -81,7 +64,3 @@ Ao final, são incluídos totais gerais e percentual geral de eficiência.
 - As credenciais devem ser configuradas no arquivo `config.py` (não incluído no repositório)
 - Os relatórios são salvos no diretório de execução com nome `Relatorio_AAAAMMDD.csv`
 - **Importante**: Nunca commite o arquivo `config.py` com suas credenciais reais
-
-## Licença
-
-Este projeto é de uso interno da organização ACCB.
