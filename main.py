@@ -103,8 +103,8 @@ class SistemaBot:
 class App:
     def __init__(self, root):
         self.root = root
-        self.root.title("Sistema ACCB - Gerador de Relatórios")
-        self.root.geometry("600x550")
+        self.root.title("Gerador de Relatórios")
+        self.root.geometry("600x560")
         self.root.resizable(False, False)
         
         self.configurar_estilos()
@@ -136,9 +136,9 @@ class App:
         form_frame.pack(fill="x", pady=(0, 15))
         
         campos = [
-            ("Data Início:", "2026-01-09", "inicio"),
-            ("Data Fim:", "2026-01-09", "fim"),
-            ("ID Unidade:", "1", "unidade")
+            ("Data Início:", "2026-01-01", "inicio"),
+            ("Data Fim:", "2026-01-01", "fim"),
+            ("Unidade:", "1", "unidade")
         ]
         
         self.entries = {}
