@@ -75,13 +75,13 @@ class SistemaBot:
                     
                     dados_relatorio.append({
                         "Médico": nome, "Especialidade": esp, "Horas": hora_tr,
-                        "Qtd Horários": val_h, "Qtd Atendidos": val_a, "% Eficiência": f"{perc:.2f}%"
+                        "Qtd Horários": val_h, "Qtd Atendidos": val_a, "% Aproveitamento": f"{perc:.2f}%"
                     })
                     self.log(f"[{i}/{len(links_finais)}] {nome} - {esp}")
 
             arquivo = f"Relatorio_{data_ini.replace('-', '')}.csv"
             with open(arquivo, mode='w', newline='', encoding='utf-8-sig') as f:
-                colunas = ["Médico", "Especialidade", "Horas", "Qtd Horários", "Qtd Atendidos", "% Eficiência"]
+                colunas = ["Médico", "Especialidade", "Horas", "Qtd Horários", "Qtd Atendidos", "% Aproveitamento"]
                 writer = csv.DictWriter(f, fieldnames=colunas, delimiter=';')
                 writer.writeheader()
                 writer.writerows(dados_relatorio)
@@ -89,22 +89,22 @@ class SistemaBot:
                 perc_geral = (total_atend / total_horar * 100) if total_horar > 0 else 0
                 writer.writerow({})
                 writer.writerow({"Médico": "TOTAIS GERAIS", "Qtd Horários": total_horar, "Qtd Atendidos": total_atend})
-                writer.writerow({"Médico": "PORCENTAGEM GERAL", "% Eficiência": f"{perc_geral:.2f}%"})
+                writer.writerow({"Médico": "PORCENTAGEM GERAL", "% Aproveitamento": f"{perc_geral:.2f}%"})
 
             self.log(f"\n✓ Relatório gerado: {arquivo}")
-            self.log(f"Eficiência geral: {perc_geral:.2f}%")
-            messagebox.showinfo("Concluído", f"Relatório salvo com sucesso!\n\nArquivo: {arquivo}\nEficiência: {perc_geral:.2f}%")
+            self.log(f"Aproveitamento geral: {perc_geral:.2f}%")
+            messagebox.showinfo("Concluído", f"Relatório salvo com sucesso!\n\nArquivo: {arquivo}\nAproveitamento: {perc_geral:.2f}%")
 
         except Exception as e:
             self.log(f"\n✗ ERRO: {str(e)}")
-            messagebox.showerror("Erro", f"Falha na execução:\n{e}")
+            messagebox.showerror("Erro", f"Falha ao executar:\n{e}")
 
 
 class App:
     def __init__(self, root):
         self.root = root
         self.root.title("Gerador de Relatórios")
-        self.root.geometry("600x560")
+        self.root.geometry("600x700")
         self.root.resizable(False, False)
         
         self.configurar_estilos()
@@ -127,7 +127,7 @@ class App:
         header = ttk.Frame(main_frame)
         header.pack(fill="x", pady=(0, 20))
         
-        ttk.Label(header, text="Gerador de Relatórios Médicos", style='Title.TLabel').pack()
+        ttk.Label(header, text="Gerador de Relatórios de Atendimento", style='Title.TLabel').pack()
         ttk.Label(header, text="Sistema de análise de atendimentos", style='Subtitle.TLabel').pack()
         
         ttk.Separator(main_frame, orient='horizontal').pack(fill='x', pady=10)
