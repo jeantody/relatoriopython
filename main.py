@@ -1,4 +1,4 @@
-import requests
+ import requests
 import time
 import csv
 import threading
@@ -104,7 +104,7 @@ class App:
     def __init__(self, root):
         self.root = root
         self.root.title("Gerador de Relatórios")
-        self.root.geometry("600x700")
+        self.root.geometry("500x700")
         self.root.resizable(False, False)
         
         self.configurar_estilos()
@@ -127,7 +127,7 @@ class App:
         header = ttk.Frame(main_frame)
         header.pack(fill="x", pady=(0, 20))
         
-        ttk.Label(header, text="Gerador de Relatórios de Atendimento", style='Title.TLabel').pack()
+        ttk.Label(header, text="Gerador de Relatórios Médicos", style='Title.TLabel').pack()
         ttk.Label(header, text="Sistema de análise de atendimentos", style='Subtitle.TLabel').pack()
         
         ttk.Separator(main_frame, orient='horizontal').pack(fill='x', pady=10)
@@ -136,9 +136,9 @@ class App:
         form_frame.pack(fill="x", pady=(0, 15))
         
         campos = [
-            ("Data Início:", "2026-01-01", "inicio"),
-            ("Data Fim:", "2026-01-01", "fim"),
-            ("Unidade:", "1", "unidade")
+            ("Data Início:", "2026-01-09", "inicio"),
+            ("Data Fim:", "2026-01-09", "fim"),
+            ("ID Unidade:", "1", "unidade")
         ]
         
         self.entries = {}
@@ -148,8 +148,30 @@ class App:
             entry.insert(0, valor_padrao)
             entry.grid(row=i, column=1, sticky="ew", pady=8)
             self.entries[nome] = entry
-            
+        
         form_frame.columnconfigure(1, weight=1)
+        
+        # Frame de exclusões
+        excl_frame = ttk.LabelFrame(main_frame, text=" Filtros de Exclusão (opcional) ", padding="15")
+        excl_frame.pack(fill="x", pady=(0, 15))
+        
+        ttk.Label(excl_frame, text="Excluir Médicos:", 
+                  font=('Segoe UI', 9, 'italic')).grid(row=0, column=0, sticky="w", pady=(0, 5))
+        ttk.Label(excl_frame, text="(separar por vírgula)", 
+                  font=('Segoe UI', 8), foreground='#7f8c8d').grid(row=0, column=1, sticky="w", pady=(0, 5))
+        
+        self.entry_medicos_excluir = ttk.Entry(excl_frame, width=50, font=('Segoe UI', 9))
+        self.entry_medicos_excluir.grid(row=1, column=0, columnspan=2, sticky="ew", pady=(0, 10))
+        
+        ttk.Label(excl_frame, text="Excluir Especialidades:", 
+                  font=('Segoe UI', 9, 'italic')).grid(row=2, column=0, sticky="w", pady=(0, 5))
+        ttk.Label(excl_frame, text="(separar por vírgula)", 
+                  font=('Segoe UI', 8), foreground='#7f8c8d').grid(row=2, column=1, sticky="w", pady=(0, 5))
+        
+        self.entry_especialidades_excluir = ttk.Entry(excl_frame, width=50, font=('Segoe UI', 9))
+        self.entry_especialidades_excluir.grid(row=3, column=0, columnspan=2, sticky="ew")
+        
+        excl_frame.columnconfigure(0, weight=1)
         
         btn_frame = ttk.Frame(main_frame)
         btn_frame.pack(fill="x", pady=10)
@@ -162,7 +184,7 @@ class App:
         log_frame = ttk.LabelFrame(main_frame, text=" Log de Execução ", padding="10")
         log_frame.pack(fill="both", expand=True)
         
-        self.txt_log = scrolledtext.ScrolledText(log_frame, height=12, width=70,
+        self.txt_log = scrolledtext.ScrolledText(log_frame, height=32, width=70,
                                                   font=('Consolas', 9),
                                                   bg='#2c3e50', fg='#ecf0f1',
                                                   insertbackground='white')
@@ -179,11 +201,15 @@ class App:
             messagebox.showwarning("Atenção", "Preencha todos os campos obrigatórios!")
             return
         
+        # Processa as exclusões
+        medicos_excluir = [m.strip() for m in self.entry_medicos_excluir.get().split(',') if m.strip()]
+        especialidades_excluir = [e.strip() for e in self.entry_especialidades_excluir.get().split(',') if e.strip()]
+        
         self.btn_gerar.state(['disabled'])
         self.txt_log.delete(1.0, tk.END)
         
         def executar_e_habilitar():
-            self.bot.executar(d_ini, d_fim, unid)
+            self.bot.executar(d_ini, d_fim, unid, medicos_excluir, especialidades_excluir)
             self.btn_gerar.state(['!disabled'])
         
         threading.Thread(target=executar_e_habilitar, daemon=True).start()
